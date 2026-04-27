@@ -1,0 +1,44 @@
+{
+  "name": "aram-mayhem-stats",
+  "version": "0.1.0",
+  "description": "Personal ARAM Mayhem (queue 2400) tracker for League of Legends",
+  "main": "out/main/index.js",
+  "author": "BryFReed",
+  "scripts": {
+    "dev": "electron-vite dev --watch",
+    "build": "electron-vite build",
+    "build:mac": "electron-vite build && electron-builder --mac && electron-builder install-app-deps",
+    "build:win": "electron-vite build && electron-builder --win --x64 && electron-builder install-app-deps",
+    "build:all": "electron-vite build && electron-builder -mw && electron-builder install-app-deps",
+    "postinstall": "electron-builder install-app-deps",
+    "rebuild": "electron-builder install-app-deps",
+    "typecheck": "tsc --noEmit -p tsconfig.node.json && tsc --noEmit -p tsconfig.web.json"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.40.0",
+    "better-sqlite3": "^11.7.0",
+    "league-connect": "^6.0.0-rc13",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-markdown": "^9.1.0",
+    "react-router-dom": "^7.1.0",
+    "remark-gfm": "^4.0.1"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.0.0",
+    "@types/better-sqlite3": "^7.6.12",
+    "@types/node": "^22.10.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "@vitejs/plugin-react": "^4.3.4",
+    "electron": "^33.0.0",
+    "electron-builder": "^25.1.8",
+    "electron-vite": "^2.3.0",
+    "tailwindcss": "^4.0.0",
+    "typescript": "^5.7.0",
+    "vite": "^5.4.11"
+  },
+  "overrides": {
+    "node-gyp": "^11.0.0"
+  }
+}

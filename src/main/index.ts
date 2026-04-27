@@ -1,0 +1,67 @@
+import { app, BrowserWindow, shell } from 'electron';
+import { join } from 'node:path';
+import { initDb } from './db';
+import { startLcuPolling, stopLcuPolling } from './lcu';
+import { loadStaticData } from './dragon';
+import { registerIpcHandlers } from './ipc-handlers';
+import { startChampSelectCoordinator } from './champ-select';
+
+let mainWindow: BrowserWindow | null = null;
+
+if (!app.requestSingleInstanceLock()) {
+  app.quit();
+}
+
+async function createWindow() {
+  mainWindow = new BrowserWindow({
+    width: 1280,
+    height: 820,
+    show: false,
+    titleBarStyle: 'hiddenInset',
+    backgroundColor: '#09090b',
+    webPreferences: {
+      preload: join(__dirname, '../preload/index.js'),
+      sandbox: false,
+      contextIsolation: true,
+      nodeIntegration: false
+    }
+  });
+
+  mainWindow.on('ready-to-show', () => mainWindow?.show());
+  mainWindow.on('closed', () => { mainWindow = null; });
+
+  mainWindow.webContents.setWindowOpenHandler(({ url }) => {
+    if (/^https?:\/\//.test(url)) shell.openExternal(url).catch(() => {});
+    return { action: 'deny' };
+  });
+
+  if (process.env['ELECTRON_RENDERER_URL']) {
+    await mainWindow.loadURL(process.env['ELECTRON_RENDERER_URL']);
+  } else {
+    await mainWindow.loadFile(join(__dirname, '../renderer/index.html'));
+  }
+}
+
+function emitToRenderer(event: string, payload: unknown) {
+  mainWindow?.webContents.send(event, payload);
+}
+
+app.whenReady().then(async () => {
+  initDb();
+  loadStaticData().catch((err) => console.error('Static data load failed:', err));
+  registerIpcHandlers();
+  await createWindow();
+  startLcuPolling(emitToRenderer);
+  startChampSelectCoordinator(emitToRenderer);
+
+  app.on('activate', () => {
+    if (BrowserWindow.getAllWindows().length === 0) createWindow();
+  });
+});
+
+app.on('window-all-closed', () => {
+  stopLcuPolling();
+  if (process.platform !== 'darwin') app.quit();
+});
+
+app.on('before-quit', () => stopLcuPolling());

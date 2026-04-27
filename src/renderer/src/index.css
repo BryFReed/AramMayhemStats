@@ -1,0 +1,14 @@
+@import "tailwindcss";
+
+html, body, #root {
+  height: 100%;
+}
+
+body {
+  font-family: ui-sans-serif, system-ui, -apple-system, "SF Pro Text", "Helvetica Neue", sans-serif;
+  -webkit-app-region: no-drag;
+}
+
+.titlebar {
+  -webkit-app-region: drag;
+}
