@@ -155,7 +155,7 @@ export default function Insights() {
         <div className="rounded border border-zinc-800 p-6 max-w-md">
           <p className="text-zinc-300 mb-1">No Anthropic API key configured.</p>
           <p className="text-zinc-500 text-sm mb-4">
-            Add your key in Settings to chat with Claude about your games and get live champ-select advice.
+            Add your key in Settings to chat with Fish about your games and get live champ-select advice.
           </p>
           <Link
             to="/settings"
@@ -187,7 +187,7 @@ export default function Insights() {
               <div className="flex items-center gap-2 mb-2">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
                 <span className="text-xs text-zinc-400 uppercase tracking-wide">
-                  Claude · live advice {advisingNow && '(updating…)'}
+                  Fish · live advice {advisingNow && '(updating…)'}
                 </span>
               </div>
               <RichMarkdown>{latestAdvice.advice}</RichMarkdown>
@@ -203,7 +203,7 @@ export default function Insights() {
       <div className="flex flex-col flex-1 min-h-0">
         <div className="flex items-center justify-between px-6 py-3 border-b border-zinc-800 shrink-0">
           <div>
-            <h2 className="text-lg font-semibold">Chat with Claude</h2>
+            <h2 className="text-lg font-semibold">Chat with Fish</h2>
             <p className="text-xs text-zinc-500">
               Has full context on your games, champion stats, and augment performance.
             </p>
@@ -249,7 +249,7 @@ export default function Insights() {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={onKeyDown}
-              placeholder={streaming ? 'Claude is typing…' : 'Ask about your games. Enter to send, Shift+Enter for newline.'}
+              placeholder={streaming ? 'Fish is typing…' : 'Ask about your games. Enter to send, Shift+Enter for newline.'}
               disabled={streaming}
               rows={2}
               className="flex-1 bg-zinc-900 border border-zinc-800 rounded px-3 py-2 text-sm resize-none focus:outline-none focus:border-zinc-600 disabled:opacity-50"
@@ -294,7 +294,7 @@ function Message({ msg }: { msg: ChatMsg }) {
             }`}
           />
           <span className="text-xs text-zinc-400 uppercase tracking-wide">
-            {msg.error ? 'Error' : 'Claude'}
+            {msg.error ? 'Error' : 'Fish'}
           </span>
         </div>
         {msg.content ? (

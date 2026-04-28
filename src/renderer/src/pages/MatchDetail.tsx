@@ -113,7 +113,7 @@ export default function MatchDetail() {
             disabled={insightLoading}
             className="text-sm px-3 py-1.5 rounded border border-zinc-700 hover:bg-zinc-800 disabled:opacity-50"
           >
-            {insightLoading ? 'Analyzing…' : insight ? 'Re-analyze' : 'Get Claude insight'}
+            {insightLoading ? 'Analyzing…' : insight ? 'Re-analyze' : 'Get Fish insight'}
           </button>
         )}
       </div>
@@ -127,7 +127,7 @@ export default function MatchDetail() {
         <div className="mb-6 p-5 rounded-lg border border-zinc-800 bg-zinc-900/40">
           <div className="flex items-center gap-2 mb-3">
             <span className="w-1.5 h-1.5 rounded-full bg-zinc-500" />
-            <span className="text-xs text-zinc-400 uppercase tracking-wide">Claude · post-game</span>
+            <span className="text-xs text-zinc-400 uppercase tracking-wide">Fish · post-game</span>
           </div>
           <RichMarkdown>{insight}</RichMarkdown>
         </div>

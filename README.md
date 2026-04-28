@@ -10,8 +10,9 @@ Personal tracker for **ARAM Mayhem** (queue 2400) games in League of Legends. Re
 - **Augment stats** — per-augment win rates, filterable by min games
   - Toggle between *My picks* and *All players*
 - **Champion drilldown** — best augments, matchups vs enemy champs, synergies with teammates
-- **Claude-powered insights** — post-game analysis + trends across recent games
-- **Live champ-select advice** — when you're picking, Claude analyzes your bench, teammate picks, enemy team, and your historical winrates and tells you whether to keep, swap, or reroll
+- **Chat with Fish** — conversational AI coach (powered by Claude) with full context on your stats; ask "what champs am I best on?" and get specific answers grounded in your data
+- **Post-game insights** — Fish analyzes a single match and tells you what worked and what hurt
+- **Live champ-select advice** — when you're picking, Fish analyzes your bench, teammate picks, enemy team, and your historical winrates and tells you whether to keep, swap, or reroll
 - **Local-only data** — everything stored in a SQLite file on your machine; no servers
 
 ---
@@ -35,7 +36,7 @@ Personal tracker for **ARAM Mayhem** (queue 2400) games in League of Legends. Re
 
 ### First-run setup (both platforms)
 
-- **Anthropic API key** (optional, for Claude features): open **Settings** in the sidebar and paste your key. Get one at https://console.anthropic.com — typical use is well under $1/month for personal tracking. The key is encrypted with the OS keychain (Electron `safeStorage`); it never leaves your machine.
+- **Anthropic API key** (optional, for Fish chat + insights): open **Settings** in the sidebar and paste your key. Get one at https://console.anthropic.com — typical use is well under $1/month for personal tracking. Fish is built on Claude under the hood, so the key goes to api.anthropic.com directly. The key is encrypted with the OS keychain (Electron `safeStorage`); it never leaves your machine.
 - **Storage**: your local SQLite database lives at:
   - macOS: `~/Library/Application Support/aram-mayhem-stats/aram-mayhem.db`
   - Windows: `%APPDATA%\aram-mayhem-stats\aram-mayhem.db`
@@ -47,7 +48,7 @@ Personal tracker for **ARAM Mayhem** (queue 2400) games in League of Legends. Re
 | Matches | Recent Mayhem games. Click any row for the full scoreboard. |
 | Champions | Per-champion win rates, sortable. Toggle "My picks" vs "All champions". |
 | Augments | Per-augment win rates with min-games filter. Toggle "My picks" vs "All players". |
-| Insights | On-demand trend analysis + live champ-select advice. Requires Anthropic key. |
+| Insights | Chat with Fish + live champ-select advice. Requires Anthropic key. |
 | Settings | Add or remove your Anthropic API key. |
 
 ---
