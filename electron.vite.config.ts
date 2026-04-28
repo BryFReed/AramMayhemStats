@@ -21,6 +21,10 @@ export default defineConfig({
   renderer: {
     root: 'src/renderer',
     plugins: [react(), tailwindcss()],
+    server: {
+      host: '127.0.0.1',
+      strictPort: true
+    },
     build: {
       outDir: resolve(__dirname, 'out/renderer'),
       emptyOutDir: true,
