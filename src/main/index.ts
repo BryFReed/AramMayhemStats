@@ -36,7 +36,19 @@ async function createWindow() {
   });
 
   if (process.env['ELECTRON_RENDERER_URL']) {
-    await mainWindow.loadURL(process.env['ELECTRON_RENDERER_URL']);
+    // Force IPv4 — on Windows, `localhost` may resolve to ::1 first while Vite binds to 127.0.0.1.
+    const devUrl = process.env['ELECTRON_RENDERER_URL'].replace('localhost', '127.0.0.1');
+    let lastErr: unknown;
+    for (let attempt = 0; attempt < 6; attempt++) {
+      try {
+        await mainWindow.loadURL(devUrl);
+        return;
+      } catch (err) {
+        lastErr = err;
+        await new Promise((r) => setTimeout(r, 500));
+      }
+    }
+    throw lastErr;
   } else {
     await mainWindow.loadFile(join(__dirname, '../renderer/index.html'));
   }
