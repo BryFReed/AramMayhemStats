@@ -1,6 +1,6 @@
 {
   "name": "aram-mayhem-stats",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Personal ARAM Mayhem (queue 2400) tracker for League of Legends",
   "main": "out/main/index.js",
   "author": "BryFReed",

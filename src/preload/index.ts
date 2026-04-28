@@ -39,7 +39,11 @@ const api = {
   },
   llm: {
     trend: (limit?: number): Promise<string> => ipcRenderer.invoke('llm:trend', limit),
-    postGame: (gameId: number): Promise<string> => ipcRenderer.invoke('llm:post-game', gameId)
+    postGame: (gameId: number): Promise<string> => ipcRenderer.invoke('llm:post-game', gameId),
+    chat: (
+      history: Array<{ role: 'user' | 'assistant'; content: string }>
+    ): Promise<{ ok: boolean; full?: string; message?: string }> =>
+      ipcRenderer.invoke('llm:chat', history)
   },
   on: {
     lcuStatus: (cb: (s: { connected: boolean }) => void): (() => void) => {
@@ -87,6 +91,27 @@ const api = {
       ipcRenderer.on('champ-select:error', handler);
       return () => {
         ipcRenderer.off('champ-select:error', handler);
+      };
+    },
+    chatChunk: (cb: (s: { text: string }) => void): (() => void) => {
+      const handler = (_: unknown, payload: { text: string }) => cb(payload);
+      ipcRenderer.on('llm:chat-chunk', handler);
+      return () => {
+        ipcRenderer.off('llm:chat-chunk', handler);
+      };
+    },
+    chatDone: (cb: (s: { full: string }) => void): (() => void) => {
+      const handler = (_: unknown, payload: { full: string }) => cb(payload);
+      ipcRenderer.on('llm:chat-done', handler);
+      return () => {
+        ipcRenderer.off('llm:chat-done', handler);
+      };
+    },
+    chatError: (cb: (s: { message: string }) => void): (() => void) => {
+      const handler = (_: unknown, payload: { message: string }) => cb(payload);
+      ipcRenderer.on('llm:chat-error', handler);
+      return () => {
+        ipcRenderer.off('llm:chat-error', handler);
       };
     }
   }

@@ -21,7 +21,7 @@ import {
   deleteAnthropicKey,
   testAnthropicKey
 } from './settings';
-import { postGameInsight, trendAnalysis } from './llm';
+import { postGameInsight, trendAnalysis, chatStream, type ChatMessage } from './llm';
 
 export function registerIpcHandlers(): void {
   ipcMain.handle('db:my-puuid', () => getMyPuuid());
@@ -81,6 +81,21 @@ export function registerIpcHandlers(): void {
         : []
     }));
     return trendAnalysis(formatted);
+  });
+
+  ipcMain.handle('llm:chat', async (event, history: ChatMessage[]) => {
+    const wc = event.sender;
+    try {
+      const full = await chatStream(history, (chunk) => {
+        wc.send('llm:chat-chunk', { text: chunk });
+      });
+      wc.send('llm:chat-done', { full });
+      return { ok: true, full };
+    } catch (err) {
+      const message = (err as Error).message;
+      wc.send('llm:chat-error', { message });
+      return { ok: false, message };
+    }
   });
 
   ipcMain.handle('llm:post-game', async (_e, gameId: number) => {
